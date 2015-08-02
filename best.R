@@ -1,6 +1,6 @@
 ## Best function section 2 of assignment
 ## accepts two arguments the 2-character State and Outcome Name
- best <- function (state,outcome){
+ best <- function (state,oc){
    
    ## Read outcome data
    
@@ -17,30 +17,31 @@
    ## Check for valid states   
    for (i in valid_states) {
      if (i == state) {
-       print(i)
        notvalidST=TRUE
        }
    }
   ## Check for valid Outcome
    for (j in valid_outcomes) {
-     if (j==outcome) {
+     if (j == oc) {
        notvalidOUTCOME = TRUE
      }
    }
    
-   
-   
+   ## Disable Warning
+   options(warn=-1)
+  
    ##   print(c("not valid =",notvalid))
    
    if (!notvalidST) {
      stop("invalid state",call.=TRUE)
-     return()
    }
    
    if (!notvalidOUTCOME) {
      stop("invalid outcome",call.=TRUE)
-     return()
    }
+   
+   ## Re-enable Warnings
+   options(warn=0)
    
    print("DID NOT STOP")
    
