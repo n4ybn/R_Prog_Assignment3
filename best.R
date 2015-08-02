@@ -1,7 +1,9 @@
 ## Best function section 2 of assignment
 ## accepts two arguments the 2-character State and Outcome Name
-library(dplyr)
-library(tidyr)
+## library(dplyr)
+## library(tidyr)
+rc <- setwd("C:/Downloads/Coursera/R_Prog_Assignment3")
+
 best <- function (state,oc){
         
         ## Read outcome data
@@ -17,7 +19,8 @@ best <- function (state,oc){
         
         ## Create new data frame of just completed rows of Hospitals and HA_counts
         HA_counts <- outcome[,15]
-        HA_counts <- as.numeric(HA_counts)   
+        suppressWarnings(HA_counts <- as.numeric(HA_counts))   
+##        HA_counts_df <- data.frame(Hospitals,HA_counts)
         HA_counts_df <- data.frame(Hospitals,States,HA_counts)
         good <- complete.cases(HA_counts_df)
         HA_counts_df <- HA_counts_df[good,]
@@ -26,21 +29,23 @@ best <- function (state,oc){
         ## Create new data frame of just completed rows of Hospitals and HF_counts
         
         HF_counts <- outcome[,21]
-        HF_counts <- as.numeric(HF_counts)   
+        suppressWarnings(HF_counts <- as.numeric(HF_counts))   
         HF_counts_df <- data.frame(Hospitals,States,HF_counts)
+    ##    HF_counts_df <- data.frame(Hospitals,HF_counts)
         good <- complete.cases(HF_counts_df)
         HF_counts_df <- HF_counts_df[good,]
         
         
         ## Create new data frame of just completed rows of Hospitals and PN_Counts
         PN_counts <- outcome[,27]
-        PN_counts <- as.numeric(PN_counts)
+        suppressWarnings(PN_counts <- as.numeric(PN_counts))
         PN_counts_df <- data.frame(Hospitals,States,PN_counts)
+    ##  PN_counts_df <- data.frame(Hospitals,PN_counts)
         good <- complete.cases(PN_counts_df)
         PN_counts_df <- PN_counts_df[good,]
         
         
-        reportdata <- data.frame(HA_counts,HF_counts,PN_counts,Hospitals,States)
+        ## reportdata <- data.frame(HA_counts,HF_counts,PN_counts,Hospitals,States)
         
         ## Check that the State and outcome are valid
         notvalidST=FALSE
@@ -60,7 +65,7 @@ best <- function (state,oc){
         }
         
         ## Disable Warning
-        options(warn=-1)
+         options(warn=-1)
         
         ##   print(c("not valid =",notvalid))
         
@@ -79,6 +84,5 @@ best <- function (state,oc){
         print("DID NOT STOP")
         
         ## Return hospital name in that state with lowest 30-day death rate
-        
         
 }
