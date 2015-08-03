@@ -1,5 +1,6 @@
 ## Best function section 2 of assignment
 ## accepts two arguments the 2-character State and Outcome Name
+rc <- setwd("C:/Downloads/Coursera/R_Prog_Assignment3")
 library(dplyr)
 library(tidyr)
  best <- function (state,oc){
@@ -15,13 +16,13 @@ library(tidyr)
    Hospitals <- outcome[,2]
    
    HA_counts <- outcome[,15]
-   HA_counts <- as.numeric(HA_counts)
+   suppressWarnings(HA_counts <- as.numeric(HA_counts))
    
    HF_counts <- outcome[,21]
-   HF_counts <- as.numeric(HF_counts)
+   suppressWarnings(HF_counts <- as.numeric(HF_counts))
    
    PN_counts <- outcome[,27]
-   PN_counts <- as.numeric(PN_counts)
+   suppressWarnings(PN_counts <- as.numeric(PN_counts))
    
    reportdata <- data.frame(HA_counts,HF_counts,PN_counts,Hospitals)
    
@@ -59,7 +60,7 @@ library(tidyr)
    ## Re-enable Warnings
    options(warn=0)
    
-   print("DID NOT STOP")
+   suppressWarnings(print("DID NOT STOP"))
    
    ## Return hospital name in that state with lowest 30-day death rate
    
