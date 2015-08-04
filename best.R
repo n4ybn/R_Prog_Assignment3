@@ -15,18 +15,18 @@ library(tidyr)
    
    Hospitals <- outcome[,2]
    
-   HA_counts <- outcome[,15]
-   suppressWarnings(HA_counts <- as.numeric(HA_counts))
+   HA <- outcome[,15]
+   suppressWarnings(HA <- as.numeric(HA))
    
-   HF_counts <- outcome[,21]
-   suppressWarnings(HF_counts <- as.numeric(HF_counts))
+   HF <- outcome[,21]
+   suppressWarnings(HF <- as.numeric(HF))
    
-   PN_counts <- outcome[,27]
-   suppressWarnings(PN_counts <- as.numeric(PN_counts))
+   PN <- outcome[,27]
+   suppressWarnings(PN <- as.numeric(PN))
    
-   reportdata <- data.frame(HA_counts,HF_counts,PN_counts,Hospitals)
+   reportdata <- data.frame(HA,HF,PN,Hospitals)
    
-   valid_outcomes <- c("heart attack","pneumonia","heart failure")
+   valid_outcomes <- c("heart attack","heart failure","pneumonia")
 
    notvalidST=FALSE
    notvalidOUTCOME=FALSE
@@ -60,9 +60,22 @@ library(tidyr)
    ## Re-enable Warnings
    options(warn=0)
    
-   suppressWarnings(print("DID NOT STOP"))
+
+   
+   ## suppressWarnings(print("DID NOT STOP"))
    
    ## Return hospital name in that state with lowest 30-day death rate
+   HA <- reportdata[order(reportdata$HA,reportdata$Hospitals),]
+   HF <- reportdata[order(reportdata$HF,reportdata$Hospitals),]
+   PN <- reportdata[order(reportdata$PN,reportdata$Hospitals),]
    
+   Hospital <- data.frame(c(as.character(HA$Hospitals[1]),as.character(HF$Hospitals[1]),as.character(PN$Hospitals[1])))
+   
+   row.names(Hospital) <- c("heart attack","heart failure","pneumonia")
+   
+   answer <- as.character(Hospital[oc,])
+   
+  print(answer)
+ 
    
  }
