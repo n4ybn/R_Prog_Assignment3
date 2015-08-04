@@ -15,17 +15,6 @@ library(tidyr)
    
    Hospitals <- outcome[,2]
    
-   HA <- outcome[,15]
-   suppressWarnings(HA <- as.numeric(HA))
-   
-   HF <- outcome[,21]
-   suppressWarnings(HF <- as.numeric(HF))
-   
-   PN <- outcome[,27]
-   suppressWarnings(PN <- as.numeric(PN))
-   
-   reportdata <- data.frame(HA,HF,PN,Hospitals)
-   
    valid_outcomes <- c("heart attack","heart failure","pneumonia")
 
    notvalidST=FALSE
@@ -57,25 +46,44 @@ library(tidyr)
      stop("invalid outcome",call.=TRUE)
    }
    
-   ## Re-enable Warnings
+
+
+   
+   outcome <- outcome[outcome$State==state,]
+   outcome[,11] <- as.numeric(outcome[,11])  ## HA
+   outcome[,17] <- as.numeric(outcome[,17])  ## HF
+   outcome[,23] <- as.numeric(outcome[,23])  ## PN
+   
+   ## Re-enable Warnings   
    options(warn=0)
    
+   Hospitals <- outcome[,2]
+   
 
+   reportdata <- data.frame(outcome[,11],outcome[,17],outcome[,23],outcome[,2])
+   ## colnames(reportdata) <- c("HA","HF","PN","Hospitals")
+   colnames(reportdata) <- c("heart attack","heart failure","pneumonia","Hospitals")
+   
+   
+   ## suppressWarnings(print("DID NOT STOP"))  
+   
+   ## Sort by the outcome (oc), and hospital, row1 is your answer.
+   answer <- reportdata[order(reportdata[oc],reportdata$Hospitals),]
+   
+   ## Return hospital name in that state with lowest 30-day death rate
+  ## HA <- reportdata[order(reportdata$HA,reportdata$Hospitals),]
+  ## HF <- reportdata[order(reportdata$HF,reportdata$Hospitals),]
+  ## PN <- reportdata[order(reportdata$PN,reportdata$Hospitals),]
    
    ## suppressWarnings(print("DID NOT STOP"))
    
-   ## Return hospital name in that state with lowest 30-day death rate
-   HA <- reportdata[order(reportdata$HA,reportdata$Hospitals),]
-   HF <- reportdata[order(reportdata$HF,reportdata$Hospitals),]
-   PN <- reportdata[order(reportdata$PN,reportdata$Hospitals),]
+   ##Hospital <- data.frame(c(as.character(HA$Hospitals[1]),as.character(HF$Hospitals[1]),as.character(PN$Hospitals[1])))
    
-   Hospital <- data.frame(c(as.character(HA$Hospitals[1]),as.character(HF$Hospitals[1]),as.character(PN$Hospitals[1])))
+   ##row.names(Hospital) <- c("heart attack","heart failure","pneumonia")
    
-   row.names(Hospital) <- c("heart attack","heart failure","pneumonia")
+   answer1 <- as.character(answer[1,"Hospitals"])
    
-   answer <- as.character(Hospital[oc,])
-   
-  print(answer)
+  suppressWarnings(print(answer1))
  
    
  }
