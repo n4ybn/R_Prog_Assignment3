@@ -1,6 +1,7 @@
 ## Best function section 2 of assignment
 ## accepts two arguments the 2-character State and Outcome Name
-rc <- setwd("C:/Downloads/Coursera/R_Prog_Assignment3")
+## rc <- setwd("C:/Downloads/Coursera/R_Prog_Assignment3")
+rc <- setwd("C:/downloads/Coursera/R-Programming/R_Prog_Assignment3")
 library(dplyr)
 library(tidyr)
  best <- function (state,oc){
@@ -46,8 +47,6 @@ library(tidyr)
      stop("invalid outcome",call.=TRUE)
    }
    
-
-
    
    outcome <- outcome[outcome$State==state,]
    outcome[,11] <- as.numeric(outcome[,11])  ## HA
