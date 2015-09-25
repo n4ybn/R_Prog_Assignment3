@@ -9,8 +9,10 @@
 dbug <- FALSE
 
 
-## This returns the 30 day death rate RANK of the hospital by outcome for a state.
-rankhospital <- function(state,oc,num = "best") {
+## This returns a two column dataframe containing the names of the hospitals and state abreviation
+## for every state, exclude hospitals according to outcome but list each state.
+
+rankall <- function(oc,num = "best") {
         ## Read outcome data
         outcome <- read.csv("outcome-of-care-measures.csv",colClasses = "character")
         
@@ -31,15 +33,20 @@ rankhospital <- function(state,oc,num = "best") {
         ## Hardcode the valid Outcomes
         valid_outcomes <- c("heart attack","heart failure","pneumonia")
         
+        ## Setup the lookup of Outcome to return the CODE for that column
+        outcomeLookup <- data.frame(c(11,17,23),row.names = valid_outcomes)
+        
         notvalidST=FALSE
         notvalidOUTCOME=FALSE
         
-        ## Check for valid states   
-        for (i in valid_states) {
-                if (i == state) {
+        ## Check for valid states   - disabled in this function "state" is not passed to function
+        ##for (i in valid_states) {
+        ##        if (i == state) { - hard code STATE to TRUE because it is not a param.
                         notvalidST=TRUE
-                }
-        }
+        ##        }
+        ##}
+                        
+                        
         ## Check for valid Outcome
         for (j in valid_outcomes) {
                 if (j == oc) {
@@ -66,8 +73,8 @@ rankhospital <- function(state,oc,num = "best") {
                 stop("invalid outcome",call.=TRUE)
         }
         
-        ## Reduce outcome to contain rows limited to the State selected
-        outcome <- outcome[outcome$State==state,]
+        ## Reduce outcome to contain rows limited to the outcome selected
+        outcomes <- outcome[,outcomeLookup[oc,]]
         
         ## Convert the columns from STRING to numeric
         outcome[,11] <- as.numeric(outcome[,11])  ## HA
