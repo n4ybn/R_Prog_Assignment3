@@ -15,4 +15,4 @@ install_from_swirl("R Programming")
 
 install_from_swirl("Getting and Cleaning Data")
 setwd("C:/Downloads/Coursera/getdata-032")
-swirl()
+M
